@@ -10,6 +10,13 @@ SITE = "https://dvmn.org"
 
 
 def fetch_response_from_api(token, timestamp=0):
+    """Get response from devman API.
+
+    :param token: devman API token
+    :param timestamp: timestamp to get response from
+    :return: response in JSON format
+    """
+
     headers = {
         "Authorization": f"Token {token}"
     }
@@ -22,7 +29,7 @@ def fetch_response_from_api(token, timestamp=0):
         DVMN_API,
         headers=headers,
         params=params,
-        timeout=5,
+        timeout=60,
     )
     response.raise_for_status()
 
@@ -30,6 +37,14 @@ def fetch_response_from_api(token, timestamp=0):
 
 
 def generate_message(is_passed, lesson_title, lesson_url):
+    """Generate message to send in bot.
+
+    :param is_passed: is solution passed
+    :param lesson_title: title of the lesson
+    :param lesson_url:  url of the lesson
+    :return: generated text
+    """
+
     text = f"У вас проверили работу \"{lesson_title}\"\n({lesson_url})\n"
     if is_passed:
         text += "Преподавателю всё понравилось,"
@@ -40,6 +55,14 @@ def generate_message(is_passed, lesson_title, lesson_url):
 
 
 def process_long_polling(token, bot, chat_id):
+    """Process long polling to devman API.
+
+    :param token: devman token
+    :param bot: bot to send status to
+    :param chat_id: chat id of the bot
+    :return: None
+    """
+
     timestamp = 0
     while True:
         try:
