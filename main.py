@@ -6,6 +6,7 @@ import telegram
 import requests
 
 DVMN_API = "https://dvmn.org/api/long_polling/"
+SITE = "https://dvmn.org"
 
 
 def fetch_response_from_api(token, timestamp=0):
@@ -28,14 +29,29 @@ def fetch_response_from_api(token, timestamp=0):
     return response.json()
 
 
+def generate_message(is_passed, lesson_title, lesson_url):
+    text = f"У вас проверили работу \"{lesson_title}\"\n({lesson_url})\n"
+    if is_passed:
+        text += "Преподавателю всё понравилось,"
+        " можно приступать к следующему уроку!"
+        return text
+    text += "К сожалению, в работе нашлись ошибки."
+    return text
+
+
 def process_long_polling(token, bot, chat_id):
     timestamp = 0
     while True:
         try:
             response = fetch_response_from_api(token, timestamp)
-            timestamp = response["new_attempts"][-1]["timestamp"]
+            statistics = response["new_attempts"][-1]
+            timestamp = statistics["timestamp"]
+            is_passed = not statistics["is_negative"]
+            lesson_title = statistics["lesson_title"]
+            lesson_url = f"{SITE}{statistics['lesson_url']}"
             bot.send_message(
-                chat_id=chat_id, text="Преподаватель проверил работу!"
+                chat_id=chat_id,
+                text=generate_message(is_passed, lesson_title, lesson_url),
             )
         except requests.HTTPError as e:
             sys.exit(f"Error during http request: {e}")
