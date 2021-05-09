@@ -10,7 +10,7 @@ DVMN_API = "https://dvmn.org/api/long_polling/"
 SITE = "https://dvmn.org"
 
 
-def fetch_response_from_api(token, timestamp=0):
+def fetch_response_from_api(token, timestamp=None):
     """Get response from devman API.
 
     :param token: devman API token
@@ -24,7 +24,7 @@ def fetch_response_from_api(token, timestamp=0):
 
     params = {
         "timestamp": timestamp,
-    } if timestamp else {}
+    }
 
     response = requests.get(
         DVMN_API,
