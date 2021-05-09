@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 from dotenv import load_dotenv
 import telegram
@@ -81,6 +82,7 @@ def process_long_polling(token, bot, chat_id):
         except requests.exceptions.ReadTimeout:
             continue
         except requests.ConnectionError:
+            time.sleep(60)
             continue
 
 
