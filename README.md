@@ -48,7 +48,8 @@ Run app by command:
 python3 main.py
 ```
 
-# Deploy on heroku
+## Deploy on heroku
+
 You need to have an account on heroku.
 
 1. Create an app on heroku and connect it to the [github repository](https://github.com/balancy/devman_notifications_bot.git) 
