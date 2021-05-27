@@ -82,7 +82,7 @@ def process_long_polling(token, bot, chat_id):
                 text=generate_message(is_passed, lesson_title, lesson_url),
             )
         except ZeroDivisionError:
-            logger.error("Ошибка деления на ноль. Бот продолжает работать")
+            logger.warning("Ошибка деления на ноль. Бот продолжает работать")
             continue
         except requests.HTTPError as e:
             error_message = f"Error during http request: {e}"
