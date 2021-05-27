@@ -10,8 +10,6 @@ import requests
 DVMN_API = "https://dvmn.org/api/long_polling/"
 SITE = "https://dvmn.org"
 
-logging.basicConfig(level=logging.INFO)
-
 
 def fetch_response_from_api(token, timestamp=None):
     """Get response from devman API.
@@ -68,7 +66,7 @@ def process_long_polling(token, bot, chat_id):
     """
 
     timestamp = 0
-    logging.info("Бот запущен")
+    bot.logger.info("Бот запущен")
     while True:
         try:
             response = fetch_response_from_api(token, timestamp)
@@ -81,6 +79,7 @@ def process_long_polling(token, bot, chat_id):
                 chat_id=chat_id,
                 text=generate_message(is_passed, lesson_title, lesson_url),
             )
+            bot.logger()
         except requests.HTTPError as e:
             sys.exit(f"Error during http request: {e}")
         except requests.exceptions.ReadTimeout:
@@ -97,5 +96,10 @@ if __name__ == "__main__":
     telegram_chat_id = os.getenv("CHAT_ID")
 
     telegram_bot = telegram.Bot(token=telegram_token)
+    logger = telegram_bot.logger
+    telegram_bot.logger.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
 
     process_long_polling(dvmn_api_token, telegram_bot, telegram_chat_id)
