@@ -81,11 +81,20 @@ def process_long_polling(token, bot, chat_id):
                 chat_id=chat_id,
                 text=generate_message(is_passed, lesson_title, lesson_url),
             )
+        except ZeroDivisionError:
+            logger.error("Ошибка деления на ноль. Бот продолжает работать")
+            continue
         except requests.HTTPError as e:
-            sys.exit(f"Error during http request: {e}")
+            error_message = f"Error during http request: {e}"
+            logger.error(error_message)
+            sys.exit(error_message)
         except requests.exceptions.ReadTimeout:
+            logger.warning(
+                "Таймаут ожидания вышел. Бот продолжает работать."
+            )
             continue
         except requests.ConnectionError:
+            logger.warning("Ошибка соединения. Бот переподключается.")
             time.sleep(60)
             continue
 
