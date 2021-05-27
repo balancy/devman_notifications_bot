@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import time
@@ -8,6 +9,8 @@ import requests
 
 DVMN_API = "https://dvmn.org/api/long_polling/"
 SITE = "https://dvmn.org"
+
+logging.basicConfig(level=logging.INFO)
 
 
 def fetch_response_from_api(token, timestamp=None):
@@ -65,6 +68,7 @@ def process_long_polling(token, bot, chat_id):
     """
 
     timestamp = 0
+    logging.info("Бот запущен")
     while True:
         try:
             response = fetch_response_from_api(token, timestamp)
