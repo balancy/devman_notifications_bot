@@ -4,6 +4,8 @@ App performing long-polling to Devman API with the aim of receiving notification
 if solutions of devman tasks were returned or passed by a tutor. If so, the status 
 message sent to telegram bot. Bot also sends logs.
 
+Link to [bot](t.me/dvmn_first_bot) 
+
 ## Install
 
 Python3 and Git should be already installed. 
@@ -49,9 +51,7 @@ python3 main.py
 # Deploy on heroku
 You need to have an account on heroku.
 
-1. Create an app on heroku and connect it to the github repository: 
-   
-```https://github.com/balancy/devman_notifications_bot.git```
+1. Create an app on heroku and connect it to the [github repository](https://github.com/balancy/devman_notifications_bot.git) 
 
 2. In the settings tab you need to define environmental variables:
 
