@@ -4,7 +4,7 @@ App performing long-polling to Devman API with the aim of receiving notification
 if solutions of devman tasks were returned or passed by a tutor. If so, the status 
 message sent to telegram bot. Bot also sends logs.
 
-Link to [bot](t.me/dvmn_first_bot) 
+Link to [bot](https://t.me/dvmn_first_bot) 
 
 ## Install
 
