@@ -10,7 +10,7 @@ import requests
 DVMN_API = "https://dvmn.org/api/long_polling/"
 SITE = "https://dvmn.org"
 
-logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
+logger = logging.getLogger(__file__)
 
 
 def fetch_response_from_api(token, timestamp=None):
@@ -83,7 +83,7 @@ def process_long_polling(token, bot, chat_id):
             )
         except requests.HTTPError as e:
             error_message = f"Error during http request: {e}"
-            logger.error(error_message)
+            logger.exception(error_message)
             sys.exit(error_message)
         except requests.exceptions.ReadTimeout:
             logger.warning(
@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
     telegram_bot = telegram.Bot(token=telegram_token)
 
-    logger = logging.getLogger('Logger')
+    logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(telegram_bot, telegram_chat_id))
 
